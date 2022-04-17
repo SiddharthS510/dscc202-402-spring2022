@@ -28,20 +28,6 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC <iframe  
-# MAGIC src="//fast.wistia.net/embed/iframe/pc07a7t7xe?videoFoam=true"
-# MAGIC style="border:1px solid #1cb1c2;"
-# MAGIC allowtransparency="true" scrolling="no" class="wistia_embed"
-# MAGIC name="wistia_embed" allowfullscreen mozallowfullscreen webkitallowfullscreen
-# MAGIC oallowfullscreen msallowfullscreen width="640" height="360" ></iframe>
-# MAGIC <div>
-# MAGIC <a target="_blank" href="https://fast.wistia.net/embed/iframe/pc07a7t7xe?seo=false">
-# MAGIC   <img alt="Opens in new tab" src="https://files.training.databricks.com/static/images/external-link-icon-16x16.png"/>&nbsp;Watch full-screen.</a>
-# MAGIC </div>
-
-# COMMAND ----------
-
 # MAGIC %md-sandbox
 # MAGIC ### Tracking Experiments with MLflow
 # MAGIC 
@@ -164,28 +150,6 @@ with mlflow.start_run(run_name="Basic RF Experiment") as run:
 # MAGIC 2. The model that we saved, included a picked version of the model as well as the Conda environment and the `MLmodel` file, which will be discussed in the next lesson.
 # MAGIC 
 # MAGIC <div><img src="https://files.training.databricks.com/images/eLearning/ML-Part-4/mlflow-ui-lesson2b.png" style="height: 400px; margin: 20px"/></div>
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC Now take a look at the directory structure backing this experiment.  This allows you to retrieve artifacts.
-
-# COMMAND ----------
-
-from mlflow.tracking import MlflowClient
-
-artifactURL = MlflowClient().get_experiment(experimentID).artifact_location
-dbutils.fs.ls(artifactURL)
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC Take a look at the contents of `random-forest-model`, which match what we see in the UI.
-
-# COMMAND ----------
-
-modelURL = f"{artifactURL}/{runID}/artifacts/random-forest-model"
-dbutils.fs.ls(modelURL)
 
 # COMMAND ----------
 
@@ -341,18 +305,11 @@ runs[0].data.metrics
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC Pull the last run and take a look at the associated artifacts.
-
-# COMMAND ----------
-
-artifactURI = f"{runs[0].info.artifact_uri}/random-forest-model/"
-
-dbutils.fs.ls(artifactURI)
-
-# COMMAND ----------
-
-# MAGIC %md
 # MAGIC Reload the model and take a look at the feature importance.
+
+# COMMAND ----------
+
+artifactURI = 'runs:/'+runs[0].info.run_id+"/random-forest-model"
 
 # COMMAND ----------
 
